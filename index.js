@@ -23,46 +23,53 @@
 // Helper function to compute the indentation level of a line
 const getIndentLevel = _line => _line.match(/^(\t*)/)[1].length;
 
-module.exports = {
-	meta: {
-	},
+module.exports.rules = {
+	'smarter-tabs': {
+		meta: {
+			type: 'layout',
+			docs: {
+				description: 'enforce the usage of smart tabs',
+				url: '',
+			},
+		},
 
-	create: function(_context)
-	{
-		const sourceCode    = _context.getSourceCode();
-		let prevIndentLevel = null;
+		create: function(_context)
+		{
+			const sourceCode    = _context.getSourceCode();
+			let prevIndentLevel = null;
 
-		return {
-			// Apply the rule on top-level nodes only
-			'[parent.type="Program"]': function(_node)
-			{
-				const nodeSource = sourceCode.getText(_node);
-
-				// Parse the text lines of the node
-				nodeSource.split('\n').forEach(_line =>
+			return {
+				// Apply the rule on top-level nodes only
+				'[parent.type="Program"]': function(_node)
 				{
-					// Report if the line contains an inline tab
-					if (/\S *\t/.test(_line))
-					{
-						_context.report({
-							node:     _node,
-							message:  'Inline tablature',
-						});
-					}
+					const nodeSource = sourceCode.getText(_node);
 
-					// Report if a line starting with tabs then spaces
-					// has a different indentation level than the one before it
-					if (/^\t* /.test(_line) && prevIndentLevel && getIndentLevel(_line) != prevIndentLevel)
+					// Parse the text lines of the node
+					nodeSource.split('\n').forEach(_line =>
 					{
-						_context.report({
-							node:     _node,
-							message:  'Mismatched indentation',
-						});
-					}
+						// Report if the line contains an inline tab
+						if (/\S *\t/.test(_line))
+						{
+							_context.report({
+								node:     _node,
+								message:  'Inline tablature',
+							});
+						}
 
-					// Keep track of the indentation level of the previous line
-					prevIndentLevel = getIndentLevel(_line);
-				});
+						// Report if a line starting with tabs then spaces
+						// has a different indentation level than the one before it
+						if (/^\t* /.test(_line) && prevIndentLevel && getIndentLevel(_line) != prevIndentLevel)
+						{
+							_context.report({
+								node:     _node,
+								message:  'Mismatched indentation',
+							});
+						}
+
+						// Keep track of the indentation level of the previous line
+						prevIndentLevel = getIndentLevel(_line);
+					});
+				}
 			}
 		}
 	}

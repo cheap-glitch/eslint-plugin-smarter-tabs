@@ -4,7 +4,7 @@
  */
 
 const RuleTester = require('eslint').RuleTester;
-const rule       = require('../index');
+const rules      = require('../index').rules;
 
 /**
  * Test snippets for inline tablatures
@@ -23,17 +23,31 @@ let someOtherVar = 2;
 `
 ], [
 `
-const object = {
+const bar = {
 	prop:      value,
 	otherProp: otherValue,
 }
 `
 ,
 `
-const object = {
+const bar = {
 	prop:	   value,
 	otherProp: otherValue,
 }
+`
+], [
+`
+let bar;
+
+if (foo)        bar = 1;
+else if (foo2)  bar = 2;
+`
+,
+`
+let bar;
+
+if (foo)	bar = 1;
+else if (foo2)  bar = 2;
 `
 ]
 ];
@@ -83,7 +97,7 @@ function yesOrNo(param)
  * -----------------------------------------------------------------------------
  */
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
-ruleTester.run('smarter-tabs', rule,
+ruleTester.run('smarter-tabs', rules['smarter-tabs'],
 	{
 		valid:    [...snippetsInlineTabs, ...snippetsMismatchedTabs].map(_s => _s[0]),
 		invalid:  [

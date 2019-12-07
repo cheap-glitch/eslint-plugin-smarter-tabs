@@ -1,9 +1,16 @@
 {
+  "keywords": [
+    "eslint",
+    "eslintplugin"
+  ],
   "scripts": {
     "test": "mocha"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
     "mocha": "^6.2.2"
+  },
+  "peerDependencies": {
+    "eslint": ">=0.8.0"
   }
 }
