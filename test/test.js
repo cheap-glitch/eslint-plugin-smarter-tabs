@@ -39,12 +39,16 @@ const bar = {
 `
 let bar;
 
+function baz() {}
+
 if (foo)        bar = 1;
 else if (foo2)  bar = 2;
 `
 ,
 `
 let bar;
+
+function baz() {}
 
 if (foo)	bar = 1;
 else if (foo2)  bar = 2;
@@ -85,15 +89,37 @@ function foo(param)
 function yesOrNo(param)
 {
 	return param === true
-            ? 'yes'
-	    : 'no';
+	    ? 'yes'
+            : 'no';
 }
+`
+], [
+`
+let bar;
+
+const style = {
+	'background-color': 'gold',
+	    'border-color': 'black',
+}
+
+function foo()  {}
+`
+,
+`
+let bar;
+
+const style = {
+        'background-color': 'gold',
+	    'border-color': 'black',
+}
+
+function foo()  {}
 `
 ]
 ];
 
 /**
- * Tests
+ * Run tests
  * -----------------------------------------------------------------------------
  */
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });

@@ -28,8 +28,9 @@ module.exports.rules = {
 		meta: {
 			type: 'layout',
 			docs: {
-				description: 'enforce the usage of smart tabs',
-				url: '',
+				description:  'enforce the usage of smart tabs',
+				category:     'stylistic issues',
+				url:          'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#eslint-plugin-smarter-tabs',
 			},
 		},
 
@@ -56,9 +57,9 @@ module.exports.rules = {
 							});
 						}
 
-						// Report if a line starting with tabs then spaces
-						// has a different indentation level than the one before it
-						if (/^\t* /.test(_line) && prevIndentLevel && getIndentLevel(_line) != prevIndentLevel)
+						// Report if a line starting with spaces (with potential tabs
+						// before them) has a different indentation level than the one before it
+						if (/^\t* /.test(_line) && prevIndentLevel !== null && getIndentLevel(_line) != prevIndentLevel)
 						{
 							_context.report({
 								node:     _node,
