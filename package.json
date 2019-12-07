@@ -1,15 +1,17 @@
 {
   "name": "eslint-plugin-smarter-tabs",
-  "version": "1.0.0",
   "description": "A tiny ESLint plugin to enforce the usage of smart tabs.",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "version": "1.0.0",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cheap-glitch/eslint-plugin-smarter-tabs.git"
   },
+  "bugs": {
+    "url": "https://github.com/cheap-glitch/eslint-plugin-smarter-tabs/issues"
+  },
+  "author": "cheap-glitch <cheap.glitch@gmail.com> (https://github.com/cheap-glitch)",
+  "homepage": "https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#readme",
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -18,12 +20,7 @@
     "smart-tabs",
     "indentation"
   ],
-  "author": "cheap-glitch <cheap.glitch@gmail.com> (https://github.com/cheap-glitch)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cheap-glitch/eslint-plugin-smarter-tabs/issues"
-  },
-  "homepage": "https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#readme",
+  "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
