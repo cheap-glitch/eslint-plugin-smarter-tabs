@@ -12,7 +12,7 @@ defined [in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
 
 
 ```
-npm install --save-dev eslint-plugin-smarter-tabs
+npm i -D eslint-plugin-smarter-tabs
 ```
 
 ## Usage

@@ -158,7 +158,7 @@ ruleTester.run('smarter-tabs', rules['smarter-tabs'],
 		valid:    [...snippetsInlineTabs, ...snippetsMismatchedTabs].map(_s => _s[0]),
 		invalid:  [
 			...snippetsInlineTabs.map(invalidSnippetHelper('Inline tabulation')),
-			...snippetsMismatchedTabs.map(invalidSnippetHelper('Mismatched indentation')),
+			...snippetsMismatchedTabs.map(invalidSnippetHelper('Spaces used for indentation')),
 		]
 	}
 );

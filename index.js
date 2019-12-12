@@ -68,14 +68,14 @@ module.exports.rules = {
 					});
 				}
 
-				// Report if a line starting with spaces (with potential tabs
+				// Report if a line starting with spaces (potentially with some tabs
 				// before them) has a different indentation level than the one before it
 				const indentLevel      = getIndentLevel(_line);
 				const mismatchedIndent = _line.match(/^(\t*) /);
 				if (mismatchedIndent && prevIndentLevel !== null && indentLevel != prevIndentLevel)
 				{
 					_context.report({
-						message: 'Mismatched indentation',
+						message: 'Spaces used for indentation',
 						loc: {
 							start: {
 								line:   lineNb,
@@ -89,6 +89,11 @@ module.exports.rules = {
 							},
 						}
 					});
+				}
+
+				// Report if the indentation of the line is deeper than the one of the line before by two levels or more
+				if (indentLevel > prevIndentLevel && indentLevel - prevIndentLevel >= 2)
+				{
 				}
 
 				// Keep track of the indentation level of the previous line
