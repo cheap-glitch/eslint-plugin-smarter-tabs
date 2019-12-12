@@ -1,2 +1,7 @@
+
+#
+# .gitignore
+#
+
+/.nyc-output/
 /node_modules/
-/.eslintrc.json

@@ -54,4 +54,4 @@ Or you could pass it the `smart-tabs` options:
 
 ## License
 
-This project is licensed under the ISC license.
+This software is distributed under the ISC license.

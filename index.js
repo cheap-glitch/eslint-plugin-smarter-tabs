@@ -24,54 +24,73 @@
 const getIndentLevel = _line => _line.match(/^(\t*)/)[1].length;
 
 module.exports.rules = {
-	'smarter-tabs': {
-		meta: {
-			type: 'layout',
-			docs: {
-				description:  'enforce the usage of smart tabs',
-				category:     'stylistic issues',
-				url:          'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#eslint-plugin-smarter-tabs',
-			},
+'smarter-tabs': {
+	meta: {
+		type: 'layout',
+		docs: {
+			description:  'enforce the usage of smart tabs',
+			category:     'stylistic issues',
+			url:          'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#eslint-plugin-smarter-tabs',
 		},
+	},
 
-		create: function(_context)
+	create: function(_context)
+	{
+		const sourceCode    = _context.getSourceCode();
+		let prevIndentLevel = null;
+
+		// Apply the rule on top-level nodes only
+		return { '[parent.type="Program"]': function(_node)
 		{
-			const sourceCode    = _context.getSourceCode();
-			let prevIndentLevel = null;
+			const nodeSource = sourceCode.getText(_node);
 
-			return {
-				// Apply the rule on top-level nodes only
-				'[parent.type="Program"]': function(_node)
+			// Parse the text lines of the node
+			nodeSource.split('\n').forEach(function(_line, _lineNb)
+			{
+				// Report if the line contains an inline tab
+				const inlineTab = _line.match(/(\S *)(\t)/);
+				if (inlineTab)
 				{
-					const nodeSource = sourceCode.getText(_node);
-
-					// Parse the text lines of the node
-					nodeSource.split('\n').forEach(_line =>
-					{
-						// Report if the line contains an inline tab
-						if (/\S *\t/.test(_line))
-						{
-							_context.report({
-								node:     _node,
-								message:  'Inline tablature',
-							});
+					console.log(_node);
+					_context.report({
+						message: 'Inline tabulation',
+						loc: {
+							start: {
+								line:   _node.loc.start + _lineNb,
+								column: inlineTab.index + inlineTab[1].length,
+							},
+							end: {
+								line:   _node.loc.start + _lineNb,
+								column: inlineTab.index + inlineTab[1].length + inlineTab[2].length - 1,
+							},
 						}
-
-						// Report if a line starting with spaces (with potential tabs
-						// before them) has a different indentation level than the one before it
-						if (/^\t* /.test(_line) && prevIndentLevel !== null && getIndentLevel(_line) != prevIndentLevel)
-						{
-							_context.report({
-								node:     _node,
-								message:  'Mismatched indentation',
-							});
-						}
-
-						// Keep track of the indentation level of the previous line
-						prevIndentLevel = getIndentLevel(_line);
 					});
 				}
-			}
+
+				// Report if a line starting with spaces (with potential tabs
+				// before them) has a different indentation level than the one before it
+				const indentLevel      = getIndentLevel(_line);
+				const mismatchedIndent = _line.match(/^(\t*) /);
+				if (mismatchedIndent  && prevIndentLevel !== null && indentLevel != prevIndentLevel)
+				{
+					_context.report({
+						message: 'Mismatched indentation',
+						loc: {
+							start: {
+								line:   _node.loc.start + _lineNb,
+								column: mismatchedIndent[1].length - Math.abs(indentLevel - prevIndentLevel),
+							},
+							end: {
+								line:   _node.loc.start + _lineNb,
+								column: mismatchedIndent[1].length,
+							},
+						}
+					});
+				}
+
+				// Keep track of the indentation level of the previous line
+				prevIndentLevel = indentLevel;
+			});
 		}
-	}
-}
+	}}
+}}
