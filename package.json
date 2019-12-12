@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-smarter-tabs",
   "description": "A tiny ESLint plugin to enforce the usage of smart tabs.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "ISC",
   "repository": {
     "type": "git",
