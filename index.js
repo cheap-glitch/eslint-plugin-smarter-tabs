@@ -45,23 +45,24 @@ module.exports.rules = {
 			const nodeSource = sourceCode.getText(_node);
 
 			// Parse the text lines of the node
-			nodeSource.split('\n').forEach(function(_line, _lineNb)
+			nodeSource.split('\n').forEach(function(_line, _index)
 			{
+				const lineNb = _node.loc.start.line + _index;
+
 				// Report if the line contains an inline tab
-				const inlineTab = _line.match(/(\S *)(\t)/);
+				const inlineTab = _line.match(/(\S *)(\t+)/);
 				if (inlineTab)
 				{
-					console.log(_node);
 					_context.report({
 						message: 'Inline tabulation',
 						loc: {
 							start: {
-								line:   _node.loc.start + _lineNb,
+								line:   lineNb,
 								column: inlineTab.index + inlineTab[1].length,
 							},
 							end: {
-								line:   _node.loc.start + _lineNb,
-								column: inlineTab.index + inlineTab[1].length + inlineTab[2].length - 1,
+								line:   lineNb,
+								column: inlineTab.index + inlineTab[1].length + inlineTab[2].length,
 							},
 						}
 					});
@@ -71,17 +72,19 @@ module.exports.rules = {
 				// before them) has a different indentation level than the one before it
 				const indentLevel      = getIndentLevel(_line);
 				const mismatchedIndent = _line.match(/^(\t*) /);
-				if (mismatchedIndent  && prevIndentLevel !== null && indentLevel != prevIndentLevel)
+				if (mismatchedIndent && prevIndentLevel !== null && indentLevel != prevIndentLevel)
 				{
 					_context.report({
 						message: 'Mismatched indentation',
 						loc: {
 							start: {
-								line:   _node.loc.start + _lineNb,
-								column: mismatchedIndent[1].length - Math.abs(indentLevel - prevIndentLevel),
+								line:   lineNb,
+								column: indentLevel > prevIndentLevel
+								      ? (mismatchedIndent[1].length - (indentLevel - prevIndentLevel))
+								      : 0,
 							},
 							end: {
-								line:   _node.loc.start + _lineNb,
+								line:   lineNb,
 								column: mismatchedIndent[1].length,
 							},
 						}
