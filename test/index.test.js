@@ -68,10 +68,10 @@ else if (foo2)  bar = 2;
 ];
 
 /**
- * Test snippets for mismatched indentation
+ * Test snippets for spaces used as indentation
  * -----------------------------------------------------------------------------
  */
-const snippetsMismatchedTabs = [
+const snippetsSpacesUsedForIndentation = [
 [
 `
 if (bar) {
@@ -138,6 +138,48 @@ function foo() {}
 ];
 
 /**
+ * Test snippets for mismatched indentation
+ * -----------------------------------------------------------------------------
+ */
+const snippetsMismatchedIndentation = [
+[
+`
+const someReallyLongName = {
+	foo: true,
+}
+`,
+`
+const someReallyLongName = {
+			foo: true,
+}
+`
+,
+{ start: [2, 2], end: [2, 3] }
+]
+,
+[
+`
+function foo() {
+	return {
+		        prop: 2,
+		longPropName: 3,
+	}
+}
+`,
+`
+function foo() {
+	return {
+			prop: 2,
+		longPropName: 3,
+	}
+}
+`
+,
+{ start: [3, 3], end: [3, 3] }
+]
+];
+
+/**
  * Run tests
  * -----------------------------------------------------------------------------
  */
@@ -155,10 +197,16 @@ const invalidSnippetHelper = _message => __s => ({
 
 ruleTester.run('smarter-tabs', rules['smarter-tabs'],
 	{
-		valid:    [...snippetsInlineTabs, ...snippetsMismatchedTabs].map(_s => _s[0]),
-		invalid:  [
+		valid: [
+			...snippetsInlineTabs,
+			...snippetsSpacesUsedForIndentation,
+			...snippetsMismatchedIndentation,
+		].map(_s => _s[0]),
+
+		invalid: [
 			...snippetsInlineTabs.map(invalidSnippetHelper('Inline tabulation')),
-			...snippetsMismatchedTabs.map(invalidSnippetHelper('Spaces used for indentation')),
+			...snippetsSpacesUsedForIndentation.map(invalidSnippetHelper('Spaces used for indentation')),
+			...snippetsMismatchedIndentation.map(invalidSnippetHelper('Mismatched indentation')),
 		]
 	}
 );

@@ -36,8 +36,7 @@ module.exports.rules = {
 
 	create: function(_context)
 	{
-		const sourceCode    = _context.getSourceCode();
-		let prevIndentLevel = null;
+		const sourceCode = _context.getSourceCode();
 
 		// Apply the rule on top-level nodes only
 		return { '[parent.type="Program"]': function(_node)
@@ -45,11 +44,13 @@ module.exports.rules = {
 			const nodeSource = sourceCode.getText(_node);
 
 			// Parse the text lines of the node
-			nodeSource.split('\n').forEach(function(_line, _index)
+			nodeSource.split('\n').forEach(function(_line, _index, _lines)
 			{
 				const lineNb = _node.loc.start.line + _index;
 
-				// Report if the line contains an inline tab
+				/**
+				 * Report if the line contains an inline tab
+				 */
 				const inlineTab = _line.match(/(\S *)(\t+)/);
 				if (inlineTab)
 				{
@@ -66,13 +67,21 @@ module.exports.rules = {
 							},
 						}
 					});
+
+					return;
 				}
 
-				// Report if a line starting with spaces (potentially with some tabs
-				// before them) has a different indentation level than the one before it
-				const indentLevel      = getIndentLevel(_line);
-				const mismatchedIndent = _line.match(/^(\t*) /);
-				if (mismatchedIndent && prevIndentLevel !== null && indentLevel != prevIndentLevel)
+				/**
+				 * Report if a line starting with spaces (potentially with some tabs
+				 * before them) has a different indentation level than the ones before and after it
+				 */
+				const spacesUsedForIndentation = _line.match(/^(\t*) /);
+
+				const indentLevel     = getIndentLevel(_line);
+				const prevIndentLevel = _index > 0                   ? getIndentLevel(_lines[_index - 1]) : indentLevel;
+				const nextIndentLevel = _index < (_lines.length - 1) ? getIndentLevel(_lines[_index + 1]) : indentLevel;
+
+				if (spacesUsedForIndentation && indentLevel != nextIndentLevel && indentLevel != prevIndentLevel)
 				{
 					_context.report({
 						message: 'Spaces used for indentation',
@@ -80,24 +89,40 @@ module.exports.rules = {
 							start: {
 								line:   lineNb,
 								column: indentLevel > prevIndentLevel
-								      ? (mismatchedIndent[1].length - (indentLevel - prevIndentLevel))
+								      ? (spacesUsedForIndentation[1].length - (indentLevel - prevIndentLevel))
 								      : 0,
 							},
 							end: {
 								line:   lineNb,
-								column: mismatchedIndent[1].length,
+								column: spacesUsedForIndentation[1].length,
+							},
+						}
+					});
+
+					return;
+				}
+
+				/**
+				 * Report if the indentation of the line is deeper than the one of the line before by two levels or more
+				 */
+				const isPrevLineEmpty = _index > 0 ? (_lines[_index - 1].length == 0) : null;
+
+				if (prevIndentLevel !== null && isPrevLineEmpty === false && (indentLevel - prevIndentLevel) >= 2)
+				{
+					_context.report({
+						message: 'Mismatched indentation',
+						loc: {
+							start: {
+								line:   lineNb,
+								column: indentLevel - (indentLevel - prevIndentLevel - 1),
+							},
+							end: {
+								line:   lineNb,
+								column: indentLevel - 1,
 							},
 						}
 					});
 				}
-
-				// Report if the indentation of the line is deeper than the one of the line before by two levels or more
-				if (indentLevel > prevIndentLevel && indentLevel - prevIndentLevel >= 2)
-				{
-				}
-
-				// Keep track of the indentation level of the previous line
-				prevIndentLevel = indentLevel;
 			});
 		}
 	}}
