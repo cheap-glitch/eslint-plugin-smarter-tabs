@@ -25,8 +25,8 @@ let foobar = false;
 /**
  * 2. The line use spaces as indentation
  *
- * This happens when a line starts with tabs followed by some spaces,
- * but has a different indentation level than the one of its block
+ * This happens when a line starts with tabs + spaces (or just spaces)
+ * and its indentation level is different than the one of its block
  */
 
 // Invalid
