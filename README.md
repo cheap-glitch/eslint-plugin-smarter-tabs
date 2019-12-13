@@ -8,8 +8,8 @@ defined [in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
 > 2. Tabs  are  only used  for  expressing  the  indentation level. One  tab per
 >    “block” — any remaining whitespace is spaces only.
 
-```javascript
 To accomplish this, the rule issues a report in three possible cases:
+```javascript
 /**
  * 1. The line contains an inline tabulation
  */
