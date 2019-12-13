@@ -15,7 +15,7 @@ To accomplish this, the rule issues a report in three possible cases:
  */
 
 // Invalid
-let foo———>= true;
+let foo———𝈷= true;
 let foobar = false;
 
 // Valid
@@ -26,48 +26,48 @@ let foobar = false;
  * 2. The line use spaces as indentation
  *
  * This happens when a line starts with tabs + spaces (or just spaces)
- * and its indentation level is different than the one of its block
+ * and its  indentation level is different  than the one of  its block
  */
 
 // Invalid
 function foo(bar)
 {
-————>return (bar === null)
-————>————>  ? 'error';
-————>————>  : 'no error';
+————𝈷return (bar === null)
+————𝈷————𝈷  ? 'error';
+————𝈷————𝈷  : 'no error';
 }
 
 // Valid
 function foo(bar)
 {
-————>return (bar === null)
-————>       ? 'error';
-————>       : 'no error';
+————𝈷return (bar === null)
+————𝈷       ? 'error';
+————𝈷       : 'no error';
 }
 
 /**
  * 3. The line has mismatched indentation
  *
- * This happens when the indentation level of the line is greater
- * than the one of the line before it by two or more
+ * This happens when the indentation level of the line is greater than
+ * the one of the line before it by two or more
  */
 
 // Invalid
 if (baz)
 {
-————>let p = { x: 1,
-————>————>————>y: 2,
-————>————>————>z: 3,
-————>};
+————𝈷let p = { x: 1,
+————𝈷————𝈷————𝈷y: 2,
+————𝈷————𝈷————𝈷z: 3,
+————𝈷};
 }
 
 // Valid
 if (baz)
 {
-————>let p = { x: 1,
-————>          y: 2,
-————>          z: 3,
-————>};
+————𝈷let p = { x: 1,
+————𝈷          y: 2,
+————𝈷          z: 3,
+————𝈷};
 }
 
 ```
