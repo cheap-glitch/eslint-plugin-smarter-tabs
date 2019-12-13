@@ -72,8 +72,12 @@ module.exports.rules = {
 				}
 
 				/**
-				 * Report if a line starting with spaces (potentially with some tabs
-				 * before them) has a different indentation level than the ones before and after it
+				 * Report if the line use space for indentation:
+				 *
+				 *  → the line has a different indentation level than the ones around it
+				 *  OR
+				 *  → the line has a different indentation level than the one before it
+				 *    AND the line before it has a higher level than the one after it (fix the "end-of-block problem")
 				 */
 				const spacesUsedForIndentation = _line.match(/^(\t*) /);
 
@@ -81,7 +85,10 @@ module.exports.rules = {
 				const prevIndentLevel = _index > 0                   ? getIndentLevel(_lines[_index - 1]) : indentLevel;
 				const nextIndentLevel = _index < (_lines.length - 1) ? getIndentLevel(_lines[_index + 1]) : indentLevel;
 
-				if (spacesUsedForIndentation && indentLevel != nextIndentLevel && indentLevel != prevIndentLevel)
+				if (spacesUsedForIndentation && (
+					   ![nextIndentLevel, prevIndentLevel].includes(indentLevel)
+					|| (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
+				))
 				{
 					_context.report({
 						message: 'Spaces used for indentation',

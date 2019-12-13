@@ -8,6 +8,70 @@ defined [in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
 > 2. Tabs  are  only used  for  expressing  the  indentation level. One  tab per
 >    “block” — any remaining whitespace is spaces only.
 
+```javascript
+To accomplish this, the rule issues a report in three possible cases:
+/**
+ * 1. The line contains an inline tabulation
+ */
+
+// Invalid
+let foo———>= true;
+let foobar = false;
+
+// Valid
+let foo    = true;
+let foobar = false;
+
+/**
+ * 2. The line use spaces as indentation
+ *
+ * This happens when a line starts with tabs followed by some spaces,
+ * but has a different indentation level than the one of its block
+ */
+
+// Invalid
+function foo(bar)
+{
+————>return (bar === null)
+————>————>  ? 'error';
+————>————>  : 'no error';
+}
+
+// Valid
+function foo(bar)
+{
+————>return (bar === null)
+————>       ? 'error';
+————>       : 'no error';
+}
+
+/**
+ * 3. The line has mismatched indentation
+ *
+ * This happens when the indentation level of the line is greater
+ * than the one of the line before it by two or more
+ */
+
+// Invalid
+if (baz)
+{
+————>let p = { x: 1,
+————>————>————>y: 2,
+————>————>————>z: 3,
+————>};
+}
+
+// Valid
+if (baz)
+{
+————>let p = { x: 1,
+————>          y: 2,
+————>          z: 3,
+————>};
+}
+
+```
+
 ## Insallation
 
 
