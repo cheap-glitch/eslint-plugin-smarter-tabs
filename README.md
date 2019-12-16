@@ -72,7 +72,7 @@ if (baz)
 
 ```
 
-## Insallation
+## Installation
 
 
 ```
