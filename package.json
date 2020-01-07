@@ -22,11 +22,11 @@
   ],
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "test": "tests"
   },
   "scripts": {
-    "test": "mocha test/*.test.js",
-    "lint": "eslint *.js test/*.js"
+    "test": "mocha tests/*.test.js",
+    "lint": "eslint *.js tests/*.js"
   },
   "devDependencies": {
     "eslint": "^6.7.2",

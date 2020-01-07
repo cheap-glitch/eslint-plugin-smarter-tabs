@@ -86,8 +86,8 @@ module.exports.rules = {
 				const nextIndentLevel = _index < (_lines.length - 1) ? getIndentLevel(_lines[_index + 1]) : indentLevel;
 
 				if (spacesUsedForIndentation && (
-					   ![nextIndentLevel, prevIndentLevel].includes(indentLevel)
-					|| (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
+				       ![nextIndentLevel, prevIndentLevel].includes(indentLevel)
+				    || (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
 				))
 				{
 					_context.report({

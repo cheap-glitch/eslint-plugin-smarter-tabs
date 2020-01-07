@@ -1,6 +1,6 @@
 
 /**
- * test/index.test.js
+ * tests/index.test.js
  */
 
 const RuleTester = require('eslint').RuleTester;
