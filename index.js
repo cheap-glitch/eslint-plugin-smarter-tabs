@@ -21,7 +21,7 @@
  */
 
 // Helper function to compute the indentation level of a line
-const getIndentLevel = _line => _line.match(/^(\t*)/)[1].length;
+const getIndentLevel = line => line.match(/^(\t*)/)[1].length;
 
 module.exports.rules = {
 'smarter-tabs': {
@@ -34,27 +34,27 @@ module.exports.rules = {
 		},
 	},
 
-	create: function(_context)
+	create: function(context)
 	{
-		const sourceCode = _context.getSourceCode();
+		const sourceCode = context.getSourceCode();
 
 		// Apply the rule on top-level nodes only
-		return { '[parent.type="Program"]': function(_node)
+		return { '[parent.type="Program"]': function(node)
 		{
-			const nodeSource = sourceCode.getText(_node);
+			const nodeSource = sourceCode.getText(node);
 
 			// Parse the text lines of the node
-			nodeSource.split('\n').forEach(function(_line, _index, _lines)
+			nodeSource.split('\n').forEach(function(line, index, lines)
 			{
-				const lineNb = _node.loc.start.line + _index;
+				const lineNb = node.loc.start.line + index;
 
 				/**
 				 * Report if the line contains an inline tab
 				 */
-				const inlineTab = _line.match(/(\S *)(\t+)/);
+				const inlineTab = line.match(/(\S *)(\t+)/);
 				if (inlineTab)
 				{
-					_context.report({
+					context.report({
 						message: 'Inline tabulation',
 						loc: {
 							start: {
@@ -79,18 +79,18 @@ module.exports.rules = {
 				 *  → the line has a different indentation level than the one before it
 				 *    AND the line before it has a higher level than the one after it (fix the "end-of-block problem")
 				 */
-				const spacesUsedForIndentation = _line.match(/^(\t*) /);
+				const spacesUsedForIndentation = line.match(/^(\t*) /);
 
-				const indentLevel     = getIndentLevel(_line);
-				const prevIndentLevel = _index > 0                   ? getIndentLevel(_lines[_index - 1]) : indentLevel;
-				const nextIndentLevel = _index < (_lines.length - 1) ? getIndentLevel(_lines[_index + 1]) : indentLevel;
+				const indentLevel     = getIndentLevel(line);
+				const prevIndentLevel = index > 0                  ? getIndentLevel(lines[index - 1]) : indentLevel;
+				const nextIndentLevel = index < (lines.length - 1) ? getIndentLevel(lines[index + 1]) : indentLevel;
 
 				if (spacesUsedForIndentation && (
 				       ![nextIndentLevel, prevIndentLevel].includes(indentLevel)
 				    || (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
 				))
 				{
-					_context.report({
+					context.report({
 						message: 'Spaces used for indentation',
 						loc: {
 							start: {
@@ -112,11 +112,11 @@ module.exports.rules = {
 				/**
 				 * Report if the indentation of the line is deeper than the one of the line before by two levels or more
 				 */
-				const isPrevLineEmpty = _index > 0 ? (_lines[_index - 1].length == 0) : null;
+				const isPrevLineEmpty = index > 0 ? (lines[index - 1].length == 0) : null;
 
 				if (prevIndentLevel !== null && isPrevLineEmpty === false && (indentLevel - prevIndentLevel) >= 2)
 				{
-					_context.report({
+					context.report({
 						message: 'Mismatched indentation',
 						loc: {
 							start: {

@@ -184,14 +184,14 @@ function foo() {
  * -----------------------------------------------------------------------------
  */
 const ruleTester           = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
-const invalidSnippetHelper = _message => __s => ({
-	code:   __s[1],
+const invalidSnippetHelper = message => snippet => ({
+	code:   snippet[1],
 	errors: [{
-		message:    _message,
-		line:       __s[2].start[0] + 1,
-		column:     __s[2].start[1],
-		endLine:    __s[2].end[0] + 1,
-		endColumn:  __s[2].end[1],
+		message:    message,
+		line:       snippet[2].start[0] + 1,
+		column:     snippet[2].start[1],
+		endLine:    snippet[2].end[0] + 1,
+		endColumn:  snippet[2].end[1],
 	}]
 });
 
@@ -201,7 +201,7 @@ ruleTester.run('smarter-tabs', rules['smarter-tabs'],
 			...snippetsInlineTabs,
 			...snippetsSpacesUsedForIndentation,
 			...snippetsMismatchedIndentation,
-		].map(_s => _s[0]),
+		].map(snippet => snippet[0]),
 
 		invalid: [
 			...snippetsInlineTabs.map(invalidSnippetHelper('Inline tabulation')),
