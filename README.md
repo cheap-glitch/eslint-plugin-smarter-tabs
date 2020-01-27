@@ -116,6 +116,9 @@ Or you could pass it the `smart-tabs` options:
 }
 ```
 
+## Changelog
+See the full changelog [here](https://github.com/cheap-glitch/eslint-plugin-smarter-tabs/releases).
+
 ## License
 
 This software is distributed under the ISC license.
