@@ -3,6 +3,8 @@
  * tests/index.test.js
  */
 
+/* eslint-disable smarter-tabs/smarter-tabs */
+
 const RuleTester = require('eslint').RuleTester;
 const rules      = require('../index').rules;
 

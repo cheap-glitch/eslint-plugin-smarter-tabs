@@ -25,9 +25,9 @@
     "test": "test"
   },
   "scripts": {
+    "coverage": "nyc npm test",
     "lint": "eslint '**/*.js'",
-    "test": "mocha",
-    "coverage": "nyc npm test"
+    "test": "mocha"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
