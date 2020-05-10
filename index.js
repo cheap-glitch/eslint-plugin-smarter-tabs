@@ -48,6 +48,9 @@ module.exports.rules = {
 			{
 				const lineNb = node.loc.start.line + index;
 
+				// Ignore commented lines starting with tabs
+				if (/^\t+\/\//.test(line)) return;
+
 				/**
 				 * Report if the line contains an inline tab
 				 */

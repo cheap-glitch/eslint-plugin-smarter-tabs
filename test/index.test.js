@@ -60,12 +60,24 @@ tester.run('smarter-tabs', require('../index.js').rules['smarter-tabs'], {
 				}
 			}
 		`),
-		// ft(`
-		// `),
-		// ft(`
-		// `),
-		// '// let someVar      = 1;\n// let someOtherVar = 2;',
-		// '// \tconst foo = 0;',
+		ft(`
+			// let foo    = 1;
+			// let foobar = 2;
+		`),
+		ft(`
+			// const foo = {
+			// 	bar: true,
+			// }
+		`),
+		ft(`
+			const foo = {
+				// data() {
+				// 	return {
+				// 		bar: true,
+				// 	}
+				// }
+			}
+		`),
 
 		/* eslint-enable smarter-tabs/smarter-tabs */
 	],
