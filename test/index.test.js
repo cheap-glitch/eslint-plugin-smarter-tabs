@@ -3,212 +3,229 @@
  * tests/index.test.js
  */
 
-/* eslint-disable smarter-tabs/smarter-tabs */
-
 const RuleTester = require('eslint').RuleTester;
-const rules      = require('../index').rules;
+const tester     = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
-/**
- * Test snippets for inline tabulations
- * -----------------------------------------------------------------------------
- */
-const snippetsInlineTabs = [
-[
-// Valid snippet
-`
-let someVar      = 1;
-let someOtherVar = 2;
-`
-,
-// Invalid snippet
-`
-let someVar	 = 1;
-let someOtherVar = 2;
-`
-,
-// Error location
-{ start: [1, 12], end: [1, 13] }
-],
-[
-`
-const bar = {
-	prop:      value,
-	otherProp: otherValue,
-}
-`
-,
-`
-const bar = {
-	prop:	   value,
-	otherProp: otherValue,
-}
-`
-,
-{ start: [2, 7], end: [2, 8] }
-],
-[
-`
-let bar;
+tester.run('smarter-tabs', require('../index.js').rules['smarter-tabs'], {
 
-function baz() {}
+	/**
+	 * Valid code spnippets
+	 */
+	valid: [
+		/* eslint-disable smarter-tabs/smarter-tabs */
+		ft(`
+			let foo    = 0;
+			let foobar = false;
+		`),
+		ft(`
+			const foo = {
+				bar:    'a',
+				foobar: 'b',
+			};
+		`),
+		ft(`
+			if (foo)      baz = 1;
+			else if (bar) baz = 2;
+		`),
+		ft(`
+			if (bar) {
+				let foo = [0, 1,
+				           2, 3];
+			}
+		`),
+		ft(`
+			function foo(param)
+			{
+				return param === true
+				    ? 'yes'
+				    : 'no';
+			}
+		`),
+		ft(`
+			const style = {
+				'background-color': 'gold',
+				    'border-color': 'black',
+			}
+		`),
+		ft(`
+			const foobar = {
+				bar: true,
+			}
+		`),
+		ft(`
+			function foo() {
+				return {
+					        foo: 2,
+					foobarfooba: 3,
+				}
+			}
+		`),
+		// ft(`
+		// `),
+		// ft(`
+		// `),
+		// '// let someVar      = 1;\n// let someOtherVar = 2;',
+		// '// \tconst foo = 0;',
 
-if (foo)        bar = 1;
-else if (foo2)  bar = 2;
-`
-,
-`
-let bar;
+		/* eslint-enable smarter-tabs/smarter-tabs */
+	],
 
-function baz() {}
+	/**
+	 * Invalid code spnippets
+	 */
+	invalid: [
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				let foo	   = 0;
+				let foobar = false;
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Inline tabulation',
+				line:      1,
+				column:    8,
+				endLine:   1,
+				endColumn: 9,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				const foo = {
+					bar:	'a',
+					foobar: 'b',
+				};
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Inline tabulation',
+				line:      2,
+				column:    6,
+				endLine:   2,
+				endColumn: 7,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				if (foo)	baz = 1;
+				else if (bar)	baz = 2;
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Inline tabulation',
+				line:      1,
+				column:    9,
+				endLine:   1,
+				endColumn: 10,
+			}, {
+				message:   'Inline tabulation',
+				line:      2,
+				column:    14,
+				endLine:   2,
+				endColumn: 15,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				if (bar) {
+					let foo = [0, 1,
+						   2, 3];
+				}
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Spaces used for indentation',
+				line:      3,
+				column:    2,
+				endLine:   3,
+				endColumn: 3,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				function foo(param)
+				{
+					return param === true
+					    ? 'yes'
+				            : 'no';
+				}
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Spaces used for indentation',
+				line:      5,
+				column:    1,
+				endLine:   5,
+				endColumn: 1,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				const style = {
+					'background-color': 'gold',
+				            'border-color': 'black',
+				}
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Spaces used for indentation',
+				line:      3,
+				column:    1,
+				endLine:   3,
+				endColumn: 1,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				const foobar = {
+						bar: true,
+				}
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Mismatched indentation',
+				line:      2,
+				column:    2,
+				endLine:   2,
+				endColumn: 2,
+			}]
+		},
+		{
+			/* eslint-disable smarter-tabs/smarter-tabs */
+			code: ft(`
+				function foo() {
+					return {
+							foo: 2,
+						foobarfooba: 3,
+					}
+				}
+			`),
+			/* eslint-enable smarter-tabs/smarter-tabs */
+			errors: [{
+				message:   'Mismatched indentation',
+				line:      3,
+				column:    3,
+				endLine:   3,
+				endColumn: 3,
+			}]
+		},
+	]
 
-if (foo)	bar = 1;
-else if (foo2)  bar = 2;
-`
-,
-{ start: [5, 9], end: [5, 10] }
-]
-];
-
-/**
- * Test snippets for spaces used as indentation
- * -----------------------------------------------------------------------------
- */
-const snippetsSpacesUsedForIndentation = [
-[
-`
-if (bar) {
-	let foo = [0, 1,
-	           2, 3];
-}
-`
-,
-`
-if (bar) {
-	let foo = [0, 1,
-		   2, 3];
-}
-`
-,
-{ start: [3, 2], end: [3, 3] }
-],
-[
-`
-function foo(param)
-{
-	return param === true
-	    ? 'yes'
-	    : 'no';
-}
-`
-,
-`
-function foo(param)
-{
-	return param === true
-	    ? 'yes'
-            : 'no';
-}
-`
-,
-{ start: [5, 1], end: [5, 1] }
-],
-[
-`
-let bar;
-
-const style = {
-	'background-color': 'gold',
-	    'border-color': 'black',
-}
-
-function foo() {}
-`
-,
-`
-let bar;
-
-const style = {
-        'background-color': 'gold',
-	    'border-color': 'black',
-}
-
-function foo() {}
-`
-,
-{ start: [5, 1], end: [5, 2] }
-]
-];
-
-/**
- * Test snippets for mismatched indentation
- * -----------------------------------------------------------------------------
- */
-const snippetsMismatchedIndentation = [
-[
-`
-const someReallyLongName = {
-	foo: true,
-}
-`,
-`
-const someReallyLongName = {
-			foo: true,
-}
-`
-,
-{ start: [2, 2], end: [2, 3] }
-]
-,
-[
-`
-function foo() {
-	return {
-		        prop: 2,
-		longPropName: 3,
-	}
-}
-`,
-`
-function foo() {
-	return {
-			prop: 2,
-		longPropName: 3,
-	}
-}
-`
-,
-{ start: [3, 3], end: [3, 3] }
-]
-];
-
-/**
- * Run tests
- * -----------------------------------------------------------------------------
- */
-const ruleTester           = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
-const invalidSnippetHelper = message => snippet => ({
-	code:   snippet[1],
-	errors: [{
-		message:    message,
-		line:       snippet[2].start[0] + 1,
-		column:     snippet[2].start[1],
-		endLine:    snippet[2].end[0] + 1,
-		endColumn:  snippet[2].end[1],
-	}]
 });
 
-ruleTester.run('smarter-tabs', rules['smarter-tabs'],
-	{
-		valid: [
-			...snippetsInlineTabs,
-			...snippetsSpacesUsedForIndentation,
-			...snippetsMismatchedIndentation,
-		].map(snippet => snippet[0]),
+/**
+ * Remove the indentation from a code snippet
+ */
+function ft(snippet)
+{
+	const lines  = snippet.split('\n').filter(line => line.length > 0);
+	const indent = lines.every(line => line.startsWith('\t\t\t')) ? 4 : 3;
 
-		invalid: [
-			...snippetsInlineTabs.map(invalidSnippetHelper('Inline tabulation')),
-			...snippetsSpacesUsedForIndentation.map(invalidSnippetHelper('Spaces used for indentation')),
-			...snippetsMismatchedIndentation.map(invalidSnippetHelper('Mismatched indentation')),
-		]
-	}
-);
+	return lines.map(line => line.slice(indent)).join('\n');
+}
