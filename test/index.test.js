@@ -236,8 +236,15 @@ tester.run('smarter-tabs', require('../index.js').rules['smarter-tabs'], {
  */
 function ft(snippet)
 {
-	const lines  = snippet.split('\n').filter(line => line.length > 0);
-	const indent = lines.every(line => line.startsWith('\t\t\t')) ? 4 : 3;
+	const emptyLineRegex = /^\s*$/;
+	const indentRegex    = /^\t+/;
 
-	return lines.map(line => line.slice(indent)).join('\n');
+	// Remove empty lines
+	const lines = snippet.split('\n').filter(line => !emptyLineRegex.test(line));
+
+	// Find the indentation level of the block
+	const indent = lines.reduce((minIndent, line) => Math.min(minIndent, line.match(indentRegex)[0].length), 100);
+
+	// Remove common block indentation and replace <EMPTY> placeholders by real empty lines
+	return lines.map(line => line.slice(indent).replace(/^\t*<EMPTY>$/g, '')).join('\n');
 }
