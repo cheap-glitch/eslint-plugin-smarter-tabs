@@ -222,8 +222,12 @@ function ft(snippet)
 	const lines = snippet.split('\n').filter(line => !emptyLineRegex.test(line));
 
 	// Find the indentation level of the block
-	const indent = lines.reduce((minIndent, line) => Math.min(minIndent, line.match(indentRegex)[0].length), 100);
+	const indent = Math.min(...lines.map(line => line.match(indentRegex)[0].length));
 
-	// Remove common block indentation and replace <EMPTY> placeholders by real empty lines
-	return lines.map(line => line.slice(indent).replace(/^\t*<EMPTY>$/g, '')).join('\n');
+	return lines.map(line => line
+		// Remove the block indentation
+		.slice(indent)
+		// Replace <EMPTY> placeholders by real empty lines
+		.replace(/^\t*<EMPTY>$/g, '')
+	).join('\n');
 }
