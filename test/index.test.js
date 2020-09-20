@@ -174,6 +174,23 @@ invalid: [
 	{
 		/* eslint-disable smarter-tabs/smarter-tabs */
 		code: ft(`
+			if (bar) {
+				let foo = true;
+			        let bar = false;
+			}
+		`),
+		/* eslint-enable smarter-tabs/smarter-tabs */
+		errors: [{
+			message:   'Spaces used for indentation',
+			line:      3,
+			column:    1,
+			endLine:   3,
+			endColumn: 1,
+		}]
+	},
+	{
+		/* eslint-disable smarter-tabs/smarter-tabs */
+		code: ft(`
 			const foobar = {
 					bar: true,
 			}
