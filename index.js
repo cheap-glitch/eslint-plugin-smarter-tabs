@@ -30,7 +30,7 @@ module.exports.rules = {
 		docs: {
 			description:  'enforce the usage of smart tabs',
 			category:     'stylistic issues',
-			url:          'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#eslint-plugin-smarter-tabs',
+			url:          'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#readme',
 		},
 	},
 
@@ -44,7 +44,7 @@ module.exports.rules = {
 			const nodeSource = sourceCode.getText(node);
 
 			// Parse the text lines of the node
-			nodeSource.split('\n').forEach(function(line, index, lines)
+			nodeSource.replace(/\r\n/g, '\n').split('\n').forEach(function(line, index, lines)
 			{
 				const lineNb = node.loc.start.line + index;
 
@@ -89,10 +89,9 @@ module.exports.rules = {
 				const nextIndentLevel = index < (lines.length - 1) ? getIndentLevel(lines[index + 1]) : indentLevel;
 
 				if (spacesUsedForIndentation && (
-				       ![nextIndentLevel, prevIndentLevel].includes(indentLevel)
-				    || (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
-				))
-				{
+					![nextIndentLevel, prevIndentLevel].includes(indentLevel)
+					|| (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
+				)) {
 					context.report({
 						message: 'Spaces used for indentation',
 						loc: {
