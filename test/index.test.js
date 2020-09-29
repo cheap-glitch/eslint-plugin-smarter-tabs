@@ -230,8 +230,7 @@ invalid: [
 /**
  * Remove the indentation from a code snippet
  */
-function ft(snippet)
-{
+function ft(snippet) {
 	const emptyLineRegex = /^\s*$/;
 	const indentRegex    = /^\t+/;
 

@@ -34,18 +34,15 @@ module.exports.rules = {
 		},
 	},
 
-	create: function(context)
-	{
+	create: function(context) {
 		const sourceCode = context.getSourceCode();
 
 		// Apply the rule on top-level nodes only
-		return { '[parent.type="Program"]': function(node)
-		{
+		return { '[parent.type="Program"]': function(node) {
 			const nodeSource = sourceCode.getText(node);
 
 			// Parse the text lines of the node
-			nodeSource.replace(/\r\n/g, '\n').split('\n').forEach(function(line, index, lines)
-			{
+			nodeSource.replace(/\r\n/g, '\n').split('\n').forEach(function(line, index, lines) {
 				const lineNb = node.loc.start.line + index;
 
 				// Ignore commented lines starting with tabs
@@ -55,8 +52,7 @@ module.exports.rules = {
 				 * Report if the line contains an inline tab
 				 */
 				const inlineTab = line.match(/(\S *)(\t+)/);
-				if (inlineTab)
-				{
+				if (inlineTab) {
 					context.report({
 						message: 'Inline tabulation',
 						loc: {
@@ -116,8 +112,7 @@ module.exports.rules = {
 				 */
 				const isPrevLineEmpty = index > 0 ? (lines[index - 1].length == 0) : null;
 
-				if (prevIndentLevel !== null && isPrevLineEmpty === false && (indentLevel - prevIndentLevel) >= 2)
-				{
+				if (prevIndentLevel !== null && isPrevLineEmpty === false && (indentLevel - prevIndentLevel) >= 2) {
 					context.report({
 						message: 'Mismatched indentation',
 						loc: {
@@ -134,5 +129,6 @@ module.exports.rules = {
 				}
 			});
 		}
-	}}
+	}
+}
 }}
