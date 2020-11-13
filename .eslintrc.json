@@ -11,9 +11,9 @@
 	],
 
 	"env": {
-		"es6":      true,
-		"node":     true,
-		"browser":  true
+		"es6":     true,
+		"node":    true,
+		"browser": true
 	},
 
 	"extends": "eslint:recommended",
@@ -24,10 +24,10 @@
 		"smarter-tabs/smarter-tabs": "warn"
 	},
 
-	"overrides": [{
-		"files": ["test/*.test.js", "tests/unit/*.spec.js"],
-		"env": {
-			"mocha": true
-		}
-	}]
+	"overrides": [
+    {
+      "files": ["test/*.test.js", "tests/unit/*.spec.js"],
+      "env": { "mocha": true }
+    }
+  ]
 }
