@@ -45,7 +45,9 @@ module.exports.rules = {
 						const lineNb = node.loc.start.line + index;
 
 						// Ignore commented lines starting with tabs
-						if (/^\t+\/\//.test(line)) return;
+						if (/^\t+\/\//.test(line)) {
+							return;
+						}
 
 						/**
 						 * Report if the line contains an inline tab
@@ -63,7 +65,7 @@ module.exports.rules = {
 										line:   lineNb,
 										column: inlineTab.index + inlineTab[1].length + inlineTab[2].length,
 									},
-								}
+								},
 							});
 
 							return;
@@ -85,7 +87,7 @@ module.exports.rules = {
 
 						if (spacesUsedForIndentation && (
 							![nextIndentLevel, prevIndentLevel].includes(indentLevel)
-							|| (indentLevel != prevIndentLevel && prevIndentLevel > nextIndentLevel)
+							|| (indentLevel !== prevIndentLevel && prevIndentLevel > nextIndentLevel)
 						)) {
 							context.report({
 								message: 'Spaces used for indentation',
@@ -100,7 +102,7 @@ module.exports.rules = {
 										line:   lineNb,
 										column: spacesUsedForIndentation[1].length,
 									},
-								}
+								},
 							});
 
 							return;
@@ -109,9 +111,9 @@ module.exports.rules = {
 						/**
 						 * Report if the indentation of the line is deeper than the one of the line before by two levels or more
 						 */
-						const isPrevLineEmpty = index > 0 ? (lines[index - 1].length == 0) : null;
+						const isPrevLineEmpty = index > 0 ? (lines[index - 1].length === 0) : undefined;
 
-						if (prevIndentLevel !== null && isPrevLineEmpty === false && (indentLevel - prevIndentLevel) >= 2) {
+						if (prevIndentLevel !== undefined && isPrevLineEmpty === false && (indentLevel - prevIndentLevel) >= 2) {
 							context.report({
 								message: 'Mismatched indentation',
 								loc: {
@@ -123,12 +125,12 @@ module.exports.rules = {
 										line:   lineNb,
 										column: indentLevel - 1,
 									},
-								}
+								},
 							});
 						}
 					});
-				}
-			}
-		}
-	}
+				},
+			};
+		},
+	},
 };
