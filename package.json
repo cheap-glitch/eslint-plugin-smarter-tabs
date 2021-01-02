@@ -27,8 +27,16 @@
   "scripts": {
     "coverage": "nyc npm test",
     "coverage:report": "npm run coverage && nyc report --reporter=text-lcov | codecov --pipe --disable=gcov",
-    "lint": "eslint '**/*.js'",
+    "lint": "eslint . --ext .js --ignore-path .gitignore",
     "test": "mocha"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "@cheap-glitch",
+    "env": {
+      "es6": true,
+      "node": true
+    }
   },
   "devDependencies": {
     "eslint": "^7.15.0",
