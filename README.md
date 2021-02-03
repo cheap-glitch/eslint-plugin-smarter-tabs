@@ -11,7 +11,7 @@ This plugin aims  to enforce the usage  of smart tabs, as defined
 > 2. Tabs  are  only used  for  expressing  the  indentation level. One  tab per
 >    “block” — any remaining whitespace is spaces only.
 
-To accomplish this, the rule issues a report in three possible cases:
+To accomplish this, the plugin exports a single rule which issues a report in three cases:
 
 1. The line contains an inline tabulation:
 
@@ -21,20 +21,26 @@ To accomplish this, the rule issues a report in three possible cases:
 		<th>Invalid</th>
 	</tr>
 	<tr>
-		<td><code lang="javascript">
-			let foo    = true;
-			let foobar = false;
-		</code></td>
-		<td><code lang="javascript">
-			let foo———𝈷= true;
-			let foobar = false;
-		</code></td>
+		<td>
+
+```javascript
+const foo    = true;
+const foobar = false;
+```
+</td>
+		<td>
+
+```javascript
+const foo———𝈷= true;
+const foobar = false;
+```
+</td>
 	</tr>
 </table>
 
-2. The line use spaces as indentation:
-  This happens when a line starts with tabs + spaces (or just spaces)
-  and its  indentation level is different  than the one of  its block
+2. The line use spaces for indentation. This happens when a line is indented with
+spaces or  starts with  tabs followed  by spaces, and  its indentation  level is
+different than the one of its block:
 
 <table>
 	<tr>
@@ -42,26 +48,32 @@ To accomplish this, the rule issues a report in three possible cases:
 		<th>Invalid</th>
 	</tr>
 	<tr>
-		<td><code lang="javascript">
-			function foo(bar) {
-			————𝈷return (bar === null)
-			————𝈷       ? 'error';
-			————𝈷       : 'no error';
-			}
-		</code></td>
-		<td><code lang="javascript">
-			function foo(bar) {
-			————𝈷return (bar === null)
-			————𝈷————𝈷  ? 'error';
-			————𝈷————𝈷  : 'no error';
-			}
-		</code></td>
+		<td>
+
+```javascript
+function foo(bar) {
+————𝈷return (bar === undefined)
+————𝈷       ? 'foo';
+————𝈷       : 'bar';
+}
+```
+</td>
+		<td>
+
+```javascript
+function foo(bar) {
+————𝈷return (bar === undefined)
+————𝈷————𝈷  ? 'foo';
+————𝈷————𝈷  : 'bar';
+}
+```
+</td>
 	</tr>
 </table>
 
-3. The line has mismatched indentation:
-  This happens when the indentation level of the line is greater than
-  the one of the line before it by two or more
+3.  The  line  has  a  mismatched  indentation  level.  This  happens  when  the
+indentation level of the  line is greater than the one of the  line before it by
+two or more:
 
 <table>
 	<tr>
@@ -69,22 +81,28 @@ To accomplish this, the rule issues a report in three possible cases:
 		<th>Invalid</th>
 	</tr>
 	<tr>
-		<td><code lang="javascript">
-			if (baz) {
-			————𝈷let p = { x: 1,
-			————𝈷          y: 2,
-			————𝈷          z: 3,
-			————𝈷};
-			}
-		</code></td>
-		<td><code lang="javascript">
-			if (baz) {
-			————𝈷let p = { x: 1,
-			————𝈷————𝈷————𝈷y: 2,
-			————𝈷————𝈷————𝈷z: 3,
-			————𝈷};
-			}
-		</code></td>
+		<td>
+
+```javascript
+if (baz) {
+————𝈷let p = { x: 1,
+————𝈷          y: 2,
+————𝈷          z: 3,
+————𝈷};
+}
+```
+</td>
+		<td>
+
+```javascript
+if (baz) {
+————𝈷let p = { x: 1,
+————𝈷————𝈷————𝈷y: 2,
+————𝈷————𝈷————𝈷z: 3,
+————𝈷};
+}
+```
+</td>
 	</tr>
 </table>
 
@@ -96,7 +114,7 @@ npm i -D eslint-plugin-smarter-tabs
 
 ## Usage
 
-The plugin exports a single rule called  `smarter-tabs` that you can use in your
+This plugin exports a single rule called `smarter-tabs` that you can use in your
 `.eslintrc.json` or `eslintrc.js`:
 ```json
 {
@@ -112,11 +130,11 @@ The plugin exports a single rule called  `smarter-tabs` that you can use in your
 ```
 
 If you  use the `eslint:recommended`  preset, you may  also want to  disable the
-`no-mixed-spaces-and-tabs` rule as it might clash with it:
+`no-mixed-spaces-and-tabs` rule as it might clash with this plugin:
 ```json
 {
 	"rules": {
-		"no-mixed-spaces-and-tabs":  "off",
+		"no-mixed-spaces-and-tabs": "off",
 		"smarter-tabs/smarter-tabs": "warn"
 	}
 }
@@ -125,7 +143,7 @@ Or you could pass it the `smart-tabs` options:
 ```json
 {
 	"rules": {
-		"no-mixed-spaces-and-tabs":  ["warn", "smart-tabs"],
+		"no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
 		"smarter-tabs/smarter-tabs": "warn"
 	}
 }
