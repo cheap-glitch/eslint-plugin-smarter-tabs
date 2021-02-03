@@ -1,10 +1,10 @@
 # 🎓 eslint-plugin-smarter-tabs
-![license badge](https://badgen.net/github/license/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
-![latest release badge](https://badgen.net/github/release/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
-[![codecov badge](https://codecov.io/gh/cheap-glitch/eslint-plugin-smarter-tabs/branch/main/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/eslint-plugin-smarter-tabs)
+![License](https://badgen.net/github/license/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
+![Latest release](https://badgen.net/github/release/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
+[![Coverage status](https://coveralls.io/repos/github/cheap-glitch/eslint-plugin-smarter-tabs/badge.svg?branch=main)](https://coveralls.io/github/cheap-glitch/eslint-plugin-smarter-tabs?branch=main)
 
-**eslint-plugin-smarter-tabs**  aims to  enforce  the usage  of  smart tabs,  as
-defined [in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
+This plugin aims  to enforce the usage  of smart tabs, as defined
+[in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
 
 > 1. Tabs are only  used at the beginning  of lines. Everything else, like ASCII
 >    art and tables, should  be formatted with spaces.
@@ -12,73 +12,85 @@ defined [in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
 >    “block” — any remaining whitespace is spaces only.
 
 To accomplish this, the rule issues a report in three possible cases:
-```javascript
-/**
- * 1. The line contains an inline tabulation
- */
 
-// Invalid
-let foo———𝈷= true;
-let foobar = false;
+1. The line contains an inline tabulation:
 
-// Valid
-let foo    = true;
-let foobar = false;
+<table>
+	<tr>
+		<th>Valid</th>
+		<th>Invalid</th>
+	</tr>
+	<tr>
+		<td><code lang="javascript">
+			let foo    = true;
+			let foobar = false;
+		</code></td>
+		<td><code lang="javascript">
+			let foo———𝈷= true;
+			let foobar = false;
+		</code></td>
+	</tr>
+</table>
 
-/**
- * 2. The line use spaces as indentation
- *
- * This happens when a line starts with tabs + spaces (or just spaces)
- * and its  indentation level is different  than the one of  its block
- */
+2. The line use spaces as indentation:
+  This happens when a line starts with tabs + spaces (or just spaces)
+  and its  indentation level is different  than the one of  its block
 
-// Invalid
-function foo(bar)
-{
-————𝈷return (bar === null)
-————𝈷————𝈷  ? 'error';
-————𝈷————𝈷  : 'no error';
-}
+<table>
+	<tr>
+		<th>Valid</th>
+		<th>Invalid</th>
+	</tr>
+	<tr>
+		<td><code lang="javascript">
+			function foo(bar) {
+			————𝈷return (bar === null)
+			————𝈷       ? 'error';
+			————𝈷       : 'no error';
+			}
+		</code></td>
+		<td><code lang="javascript">
+			function foo(bar) {
+			————𝈷return (bar === null)
+			————𝈷————𝈷  ? 'error';
+			————𝈷————𝈷  : 'no error';
+			}
+		</code></td>
+	</tr>
+</table>
 
-// Valid
-function foo(bar)
-{
-————𝈷return (bar === null)
-————𝈷       ? 'error';
-————𝈷       : 'no error';
-}
+3. The line has mismatched indentation:
+  This happens when the indentation level of the line is greater than
+  the one of the line before it by two or more
 
-/**
- * 3. The line has mismatched indentation
- *
- * This happens when the indentation level of the line is greater than
- * the one of the line before it by two or more
- */
-
-// Invalid
-if (baz)
-{
-————𝈷let p = { x: 1,
-————𝈷————𝈷————𝈷y: 2,
-————𝈷————𝈷————𝈷z: 3,
-————𝈷};
-}
-
-// Valid
-if (baz)
-{
-————𝈷let p = { x: 1,
-————𝈷          y: 2,
-————𝈷          z: 3,
-————𝈷};
-}
-
-```
+<table>
+	<tr>
+		<th>Valid</th>
+		<th>Invalid</th>
+	</tr>
+	<tr>
+		<td><code lang="javascript">
+			if (baz) {
+			————𝈷let p = { x: 1,
+			————𝈷          y: 2,
+			————𝈷          z: 3,
+			————𝈷};
+			}
+		</code></td>
+		<td><code lang="javascript">
+			if (baz) {
+			————𝈷let p = { x: 1,
+			————𝈷————𝈷————𝈷y: 2,
+			————𝈷————𝈷————𝈷z: 3,
+			————𝈷};
+			}
+		</code></td>
+	</tr>
+</table>
 
 ## Installation
 
-
-```
+```shell
 npm i -D eslint-plugin-smarter-tabs
 ```
 
@@ -120,6 +132,7 @@ Or you could pass it the `smart-tabs` options:
 ```
 
 ## Changelog
+
 See the full changelog [here](https://github.com/cheap-glitch/eslint-plugin-smarter-tabs/releases).
 
 ## License
