@@ -5,6 +5,7 @@ export function ft(snippet: string): string {
 	const minIndentationLevel = Math.min(...lines.map(line => {
 		const match = line.match(/^\t+/);
 
+		/* istanbul ignore next */
 		return match ? match[0].length : 0;
 	}));
 

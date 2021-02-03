@@ -21,15 +21,16 @@
 import { Rule } from 'eslint';
 
 function getIndentLevel(line: string): number {
-	const match = line.match(/^(?<indent>\t*)/);
+	const match = line.match(/^\t+/);
 
-	return (match && match.groups) ? match.groups?.indent.length ?? 0 : 0;
+	return match ? match[0].length : 0;
 }
 
 function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 	const lines = context.getSourceCode().getText(node).split(/\r?\n/);
 
 	for (const [index, line] of lines.entries()) {
+		/* istanbul ignore next */
 		const lineNumber = (node.loc?.start.line ?? 0) + index;
 
 		// Ignore commented lines starting with tabs
@@ -39,17 +40,17 @@ function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 
 		// Report if the line contains an inline tab
 		const inlineTab = line.match(/(\S *)(\t+)/);
-		if (inlineTab) {
+		if (inlineTab && inlineTab.index !== undefined) {
 			context.report({
 				message: 'Inline tabulation',
 				loc: {
 					start: {
 						line:   lineNumber,
-						column: (inlineTab.index ?? 0) + inlineTab[1].length,
+						column: inlineTab.index + inlineTab[1].length,
 					},
 					end: {
 						line:   lineNumber,
-						column: (inlineTab.index ?? 0) + inlineTab[1].length + inlineTab[2].length,
+						column: inlineTab.index + inlineTab[1].length + inlineTab[2].length,
 					},
 				},
 			});
