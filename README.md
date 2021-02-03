@@ -1,4 +1,4 @@
-# eslint-plugin-smarter-tabs
+# 🎓 eslint-plugin-smarter-tabs
 ![license badge](https://badgen.net/github/license/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
 ![latest release badge](https://badgen.net/github/release/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
 [![codecov badge](https://codecov.io/gh/cheap-glitch/eslint-plugin-smarter-tabs/branch/main/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/eslint-plugin-smarter-tabs)
