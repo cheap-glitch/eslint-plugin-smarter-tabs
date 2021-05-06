@@ -118,13 +118,12 @@ This plugin exports a single rule called `smarter-tabs` that you can use in your
 `.eslintrc.json` or `eslintrc.js`:
 ```json
 {
-	"plugins": [
-		"smarter-tabs"
-	],
-
-	"rules": {
-		"smarter-tabs/smarter-tabs": "warn"
-	}
+  "plugins": [
+    "smarter-tabs"
+  ],
+  "rules": {
+    "smarter-tabs/smarter-tabs": "warn"
+  }
 }
 
 ```
@@ -133,19 +132,19 @@ If you  use the `eslint:recommended`  preset, you may  also want to  disable the
 `no-mixed-spaces-and-tabs` rule as it might clash with this plugin:
 ```json
 {
-	"rules": {
-		"no-mixed-spaces-and-tabs": "off",
-		"smarter-tabs/smarter-tabs": "warn"
-	}
+  "rules": {
+    "no-mixed-spaces-and-tabs": "off",
+    "smarter-tabs/smarter-tabs": "warn"
+  }
 }
 ```
 Or you could pass it the `smart-tabs` options:
 ```json
 {
-	"rules": {
-		"no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
-		"smarter-tabs/smarter-tabs": "warn"
-	}
+  "rules": {
+    "no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
+    "smarter-tabs/smarter-tabs": "warn"
+  }
 }
 ```
 
@@ -153,6 +152,10 @@ Or you could pass it the `smart-tabs` options:
 
 See the full changelog [here](https://github.com/cheap-glitch/eslint-plugin-smarter-tabs/releases).
 
+## Contributing
+
+Contributions are welcomed!
+
 ## License
 
-This software is distributed under the ISC license.
+This software is distributed under the [ISC license](https://www.isc.org/licenses).
