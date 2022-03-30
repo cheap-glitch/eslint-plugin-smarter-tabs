@@ -1,4 +1,4 @@
-/**
+/*!
  * eslint-plugin-smarter-tabs
  *
  * A tiny ESLint plugin to enforce the usage of smart tabs.
@@ -18,13 +18,24 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { Rule } from 'eslint';
+import type { Rule } from 'eslint';
 
-function getIndentLevel(line: string): number {
-	const match = line.match(/^\t+/);
-
-	return match ? match[0].length : 0;
-}
+export const rules: Record<string, Rule.RuleModule> = {
+	'smarter-tabs': {
+		meta: {
+			type: 'layout',
+			docs: {
+				description: 'Enforce the usage of smart tabs.',
+				category: 'stylistic issues',
+				url: 'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#readme',
+			},
+		},
+		create: context => ({
+			// Apply the rule to top-level nodes only
+			'[parent.type="Program"]': (node: Rule.Node) => lintNode(context, node),
+		}),
+	},
+};
 
 function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 	const lines = context.getSourceCode().getText(node).split(/\r?\n/);
@@ -45,11 +56,11 @@ function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 				message: 'Inline tabulation',
 				loc: {
 					start: {
-						line:   lineNumber,
+						line: lineNumber,
 						column: inlineTab.index + inlineTab[1].length,
 					},
 					end: {
-						line:   lineNumber,
+						line: lineNumber,
 						column: inlineTab.index + inlineTab[1].length + inlineTab[2].length,
 					},
 				},
@@ -65,21 +76,21 @@ function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 		 *  → the line has a different indentation level than the one before it
 		 *    AND the line before it has a higher level than the one after it (fix the "end-of-block problem")
 		 */
+		const indentLevel = getIndentLevel(line);
 		const spacesUsedForIndentation = line.match(/^(\t*) /);
-		const indentLevel              = getIndentLevel(line);
-		const prevIndentLevel          = index > 0                  ? getIndentLevel(lines[index - 1]) : indentLevel;
-		const nextIndentLevel          = index < (lines.length - 1) ? getIndentLevel(lines[index + 1]) : indentLevel;
+		const prevIndentLevel = index > 0 ? getIndentLevel(lines[index - 1]) : indentLevel;
+		const nextIndentLevel = index < (lines.length - 1) ? getIndentLevel(lines[index + 1]) : indentLevel;
 
 		if (spacesUsedForIndentation && (![nextIndentLevel, prevIndentLevel].includes(indentLevel) || (indentLevel !== prevIndentLevel && prevIndentLevel > nextIndentLevel))) {
 			context.report({
 				message: 'Spaces used for indentation',
 				loc: {
 					start: {
-						line:   lineNumber,
+						line: lineNumber,
 						column: indentLevel > prevIndentLevel ? (spacesUsedForIndentation[1].length - (indentLevel - prevIndentLevel)) : 0,
 					},
 					end: {
-						line:   lineNumber,
+						line: lineNumber,
 						column: spacesUsedForIndentation[1].length,
 					},
 				},
@@ -98,11 +109,11 @@ function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 				message: 'Mismatched indentation',
 				loc: {
 					start: {
-						line:   lineNumber,
+						line: lineNumber,
 						column: indentLevel - (indentLevel - prevIndentLevel - 1),
 					},
 					end: {
-						line:   lineNumber,
+						line: lineNumber,
 						column: indentLevel - 1,
 					},
 				},
@@ -111,19 +122,8 @@ function lintNode(context: Rule.RuleContext, node: Rule.Node): void {
 	}
 }
 
-export const rules: Record<string, Rule.RuleModule> = {
-	'smarter-tabs': {
-		meta: {
-			type: 'layout',
-			docs: {
-				description: 'enforce the usage of smart tabs',
-				category:    'stylistic issues',
-				url:         'https://github.com/cheap-glitch/eslint-plugin-smarter-tabs#readme',
-			},
-		},
-		create: context => ({
-			// Apply the rule on top-level nodes only
-			'[parent.type="Program"]': (node: Rule.Node) => lintNode(context, node),
-		}),
-	},
-};
+function getIndentLevel(line: string): number {
+	const match = line.match(/^\t+/);
+
+	return match ? match[0].length : 0;
+}

@@ -4,11 +4,9 @@ import { RuleTester } from 'eslint';
 import { rules } from '../src';
 
 new RuleTester({
-	parserOptions: {
-		ecmaVersion: 2015,
-	},
-}).run('smarter-tabs', rules['smarter-tabs'], {
-
+	parserOptions: { ecmaVersion: 2015 },
+})
+.run('smarter-tabs', rules['smarter-tabs'], {
 	valid: [
 
 		outdent`
@@ -108,10 +106,10 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Inline tabulation',
-				line:      1,
-				column:    8,
-				endLine:   1,
+				message: 'Inline tabulation',
+				line: 1,
+				column: 8,
+				endLine: 1,
 				endColumn: 9,
 			}],
 		},
@@ -126,10 +124,10 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Inline tabulation',
-				line:      2,
-				column:    6,
-				endLine:   2,
+				message: 'Inline tabulation',
+				line: 2,
+				column: 6,
+				endLine: 2,
 				endColumn: 7,
 			}],
 		},
@@ -142,16 +140,16 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Inline tabulation',
-				line:      1,
-				column:    9,
-				endLine:   1,
+				message: 'Inline tabulation',
+				line: 1,
+				column: 9,
+				endLine: 1,
 				endColumn: 10,
 			}, {
-				message:   'Inline tabulation',
-				line:      2,
-				column:    14,
-				endLine:   2,
+				message: 'Inline tabulation',
+				line: 2,
+				column: 14,
+				endLine: 2,
 				endColumn: 15,
 			}],
 		},
@@ -166,10 +164,10 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Spaces used for indentation',
-				line:      3,
-				column:    2,
-				endLine:   3,
+				message: 'Spaces used for indentation',
+				line: 3,
+				column: 2,
+				endLine: 3,
 				endColumn: 3,
 			}],
 		},
@@ -184,10 +182,10 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Spaces used for indentation',
-				line:      3,
-				column:    1,
-				endLine:   3,
+				message: 'Spaces used for indentation',
+				line: 3,
+				column: 1,
+				endLine: 3,
 				endColumn: 1,
 			}],
 		},
@@ -201,10 +199,10 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Mismatched indentation',
-				line:      2,
-				column:    2,
-				endLine:   2,
+				message: 'Mismatched indentation',
+				line: 2,
+				column: 2,
+				endLine: 2,
 				endColumn: 2,
 			}],
 		},
@@ -221,14 +219,13 @@ new RuleTester({
 			`,
 			/* eslint-enable smarter-tabs/smarter-tabs */
 			errors: [{
-				message:   'Mismatched indentation',
-				line:      3,
-				column:    3,
-				endLine:   3,
+				message: 'Mismatched indentation',
+				line: 3,
+				column: 3,
+				endLine: 3,
 				endColumn: 3,
 			}],
 		},
 
 	],
-
 });
