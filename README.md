@@ -18,8 +18,8 @@ To accomplish this, the plugin exports a single rule which issues a report in th
 
 <table>
 	<tr>
-		<th>Valid</th>
-		<th>Invalid</th>
+		<th>✅ Valid</th>
+		<th>❌ Invalid</th>
 	</tr>
 	<tr>
 		<td>
@@ -45,8 +45,8 @@ different than the one of its block:
 
 <table>
 	<tr>
-		<th>Valid</th>
-		<th>Invalid</th>
+		<th>✅ Valid</th>
+		<th>❌ Invalid</th>
 	</tr>
 	<tr>
 		<td>
@@ -78,8 +78,8 @@ two or more:
 
 <table>
 	<tr>
-		<th>Valid</th>
-		<th>Invalid</th>
+		<th>✅ Valid</th>
+		<th>❌ Invalid</th>
 	</tr>
 	<tr>
 		<td>
@@ -109,14 +109,16 @@ if (baz) {
 
 ## Installation
 
-```shell
+```
 npm i -D eslint-plugin-smarter-tabs
 ```
 
+Make sure you've also [installed ESLint](https://eslint.org/docs/user-guide/getting-started#installation-and-usage).
+
 ## Usage
 
-This plugin exports a single rule called `smarter-tabs` that you can use in your
-`.eslintrc.json` or `eslintrc.js`:
+This plugin exports a single rule, called `smarter-tabs`:
+
 ```json
 {
   "plugins": [
@@ -126,11 +128,11 @@ This plugin exports a single rule called `smarter-tabs` that you can use in your
     "smarter-tabs/smarter-tabs": "warn"
   }
 }
-
 ```
 
 If you  use the `eslint:recommended`  preset, you may  also want to  disable the
 `no-mixed-spaces-and-tabs` rule as it might clash with this plugin:
+
 ```json
 {
   "rules": {
@@ -139,7 +141,9 @@ If you  use the `eslint:recommended`  preset, you may  also want to  disable the
   }
 }
 ```
+
 Or you could pass it the `smart-tabs` options:
+
 ```json
 {
   "rules": {
@@ -155,8 +159,13 @@ See the full changelog [here](https://github.com/cheap-glitch/eslint-plugin-smar
 
 ## Contributing
 
-Contributions are welcomed!
+Contributions are welcomed! Please open an issue before submitting substantial changes.
+
+## Related
+
+ * [`indent`](https://eslint.org/docs/rules/indent#indent), [`no-multi-spaces`](https://eslint.org/docs/rules/no-multi-spaces#no-multi-spaces), [`no-mixed-spaces-and-tabs`](https://eslint.org/docs/rules/no-mixed-spaces-and-tabs#no-mixed-spaces-and-tabs) – Useful core ESLint rules to manage white space in code
+ * [`unicorn/template-indent`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/template-indent.md) – Rule from the [unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn) plugin to fix whitespace-insensitive template indentation
 
 ## License
 
-This software is distributed under the [ISC license](https://www.isc.org/licenses).
+ISC
