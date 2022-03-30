@@ -55,7 +55,7 @@
     "coverageDirectory": ".coverage"
   },
   "peerDependencies": {
-    "eslint": "^7.25.0"
+    "eslint": "^8.0.0"
   },
   "devDependencies": {
     "@cheap-glitch/eslint-config-typescript": "^2.2.0",
