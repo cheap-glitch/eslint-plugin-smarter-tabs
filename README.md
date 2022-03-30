@@ -1,7 +1,8 @@
 # 🎓 eslint-plugin-smarter-tabs
-![License](https://badgen.net/github/license/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
-![Latest release](https://badgen.net/github/release/cheap-glitch/eslint-plugin-smarter-tabs?color=green)
-[![Coverage status](https://coveralls.io/repos/github/cheap-glitch/eslint-plugin-smarter-tabs/badge.svg?branch=main)](https://coveralls.io/github/cheap-glitch/eslint-plugin-smarter-tabs?branch=main)
+
+[![License](https://shields.io/github/license/cheap-glitch/eslint-plugin-smarter-tabs)](LICENSE)
+[![Latest release](https://shields.io/github/v/release/cheap-glitch/eslint-plugin-smarter-tabs?sort=semver&label=latest%20release&color=green)](https://github.com/cheap-glitch/eslint-plugin-smarter-tabs/releases/latest)
+[![Coverage status](https://shields.io/coveralls/github/cheap-glitch/eslint-plugin-smarter-tabs)](https://coveralls.io/github/cheap-glitch/eslint-plugin-smarter-tabs)
 
 This plugin aims  to enforce the usage  of smart tabs, as defined
 [in the emacs wiki](https://www.emacswiki.org/emacs/SmartTabs):
